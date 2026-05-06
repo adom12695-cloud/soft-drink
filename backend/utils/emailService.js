@@ -1,18 +1,25 @@
 const nodemailer = require('nodemailer');
+const net        = require('net');
 
 // ─── Create reusable transporter ─────────────────────────────────────────────
 const createTransporter = () => {
   return nodemailer.createTransport({
-    host:   process.env.EMAIL_HOST,
-    port:   Number(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for 587
+    host:   process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port:   Number(process.env.EMAIL_PORT) || 465,
+    secure: process.env.EMAIL_SECURE !== 'false', // true for 465 (SSL), false for 587
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    // ── Force IPv4 — Render free tier does not support IPv6 outbound ──────────
+    family: 4,
     tls: {
-      rejectUnauthorized: false, // avoids self-signed cert issues in dev
+      rejectUnauthorized: false,
     },
+    // Generous timeouts for cloud environments
+    connectionTimeout: 10000,
+    greetingTimeout:   10000,
+    socketTimeout:     15000,
   });
 };
 
