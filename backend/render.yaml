@@ -30,7 +30,13 @@ services:
         value: true
       - key: EMAIL_USER
         sync: false
-      - key: EMAIL_PASS
-        sync: false
       - key: EMAIL_FROM
+        sync: false
+      # ── Gmail OAuth2 (recommended — SMTP is blocked on Render free tier) ──
+      # Remove EMAIL_HOST / EMAIL_PORT / EMAIL_PASS once OAuth2 is configured
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
         sync: false
