@@ -1,44 +1,12 @@
 const nodemailer = require('nodemailer');
 
-/**
- * Email transport strategy — tries multiple approaches in order:
- *
- * 1. Gmail OAuth2  (if GMAIL_CLIENT_ID + GMAIL_CLIENT_SECRET + GMAIL_REFRESH_TOKEN are set)
- *    → Works from any IP including Render/cloud. No port blocking.
- *
- * 2. Generic SMTP  (if EMAIL_HOST + EMAIL_USER + EMAIL_PASS are set)
- *    → Works locally and on paid cloud tiers that allow outbound SMTP.
- *
- * 3. Ethereal      (fallback in development — catches email in a test inbox)
- *    → Never sends real email, just logs a preview URL.
- */
-
-// ─── Strategy 1: Gmail OAuth2 ─────────────────────────────────────────────────
-const createOAuth2Transporter = () => {
-  if (
-    !process.env.GMAIL_CLIENT_ID ||
-    !process.env.GMAIL_CLIENT_SECRET ||
-    !process.env.GMAIL_REFRESH_TOKEN
-  ) return null;
-
+// ─── Create transporter ───────────────────────────────────────────────────────
+// Uses any SMTP provider configured via environment variables.
+// Recommended for production on Render: Brevo (smtp-relay.brevo.com:587)
+// Gmail SMTP is blocked on Render free tier (cloud IP firewall).
+const createTransporter = () => {
   return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type:         'OAuth2',
-      user:         process.env.EMAIL_USER,
-      clientId:     process.env.GMAIL_CLIENT_ID,
-      clientSecret: process.env.GMAIL_CLIENT_SECRET,
-      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-    },
-  });
-};
-
-// ─── Strategy 2: Generic SMTP ─────────────────────────────────────────────────
-const createSmtpTransporter = () => {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) return null;
-
-  return nodemailer.createTransport({
-    host:   process.env.EMAIL_HOST || 'smtp.gmail.com',
+    host:   process.env.EMAIL_HOST,
     port:   Number(process.env.EMAIL_PORT) || 587,
     secure: process.env.EMAIL_SECURE === 'true',
     auth: {
@@ -52,53 +20,27 @@ const createSmtpTransporter = () => {
   });
 };
 
-// ─── Strategy 3: Ethereal (dev fallback) ──────────────────────────────────────
-const createEtherealTransporter = async () => {
-  const testAccount = await nodemailer.createTestAccount();
-  console.log('📧 Using Ethereal test email account:', testAccount.user);
-  return nodemailer.createTransport({
-    host:   'smtp.ethereal.email',
-    port:   587,
-    secure: false,
-    auth: { user: testAccount.user, pass: testAccount.pass },
-  });
-};
-
-// ─── Get the best available transporter ───────────────────────────────────────
-const getTransporter = async () => {
-  const oauth2 = createOAuth2Transporter();
-  if (oauth2) return { transporter: oauth2, strategy: 'OAuth2' };
-
-  const smtp = createSmtpTransporter();
-  if (smtp) return { transporter: smtp, strategy: 'SMTP' };
-
-  const ethereal = await createEtherealTransporter();
-  return { transporter: ethereal, strategy: 'Ethereal' };
-};
-
 // ─── Verify on server start ───────────────────────────────────────────────────
 const verifyEmailConfig = async () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('⚠️  Email not configured — password reset emails will not send.');
+    return;
+  }
   try {
-    const { transporter, strategy } = await getTransporter();
+    const transporter = createTransporter();
     await transporter.verify();
-    console.log(`✅ Email service ready — strategy: ${strategy} (${process.env.EMAIL_USER || 'ethereal'})`);
+    console.log(`✅ Email service ready (${process.env.EMAIL_HOST} / ${process.env.EMAIL_USER})`);
   } catch (err) {
     console.error(`❌ Email config error: ${err.message}`);
-    if (process.env.GMAIL_CLIENT_ID) {
-      console.error('   → OAuth2 mode: check GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN');
-    } else {
-      console.error('   → SMTP mode: check EMAIL_USER, EMAIL_PASS, EMAIL_HOST, EMAIL_PORT');
-      console.error('   → Gmail SMTP is blocked on Render free tier — use OAuth2 instead');
-      console.error('   → See: https://github.com/MadisoMelese/Soft-Drink-#email-setup');
-    }
+    console.error(`   Host: ${process.env.EMAIL_HOST}  Port: ${process.env.EMAIL_PORT}`);
   }
 };
 
-// ─── Build the HTML email ─────────────────────────────────────────────────────
-const buildResetEmail = (name, code) => ({
-  subject: `${code} is your SoftDrink password reset code`,
-  text: `Hi ${name},\n\nYour password reset code is: ${code}\n\nIt expires in 15 minutes.\n\nIf you didn't request this, ignore this email.`,
-  html: `
+// ─── Send password reset OTP ──────────────────────────────────────────────────
+const sendPasswordResetCode = async ({ to, name, code }) => {
+  const transporter = createTransporter();
+
+  const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/></head>
@@ -146,28 +88,15 @@ const buildResetEmail = (name, code) => ({
     </td></tr>
   </table>
 </body>
-</html>`.trim(),
-});
+</html>`.trim();
 
-// ─── Send password reset OTP ──────────────────────────────────────────────────
-const sendPasswordResetCode = async ({ to, name, code }) => {
-  const { transporter, strategy } = await getTransporter();
-  const { subject, text, html }   = buildResetEmail(name, code);
-
-  const info = await transporter.sendMail({
+  return transporter.sendMail({
     from:    process.env.EMAIL_FROM || '"SoftDrink Distribution" <noreply@softdrink.com>',
     to,
-    subject,
-    text,
+    subject: `${code} is your SoftDrink password reset code`,
+    text:    `Hi ${name},\n\nYour password reset code is: ${code}\n\nIt expires in 15 minutes.\n\nIf you didn't request this, ignore this email.`,
     html,
   });
-
-  // If using Ethereal, log the preview URL so you can see the email
-  if (strategy === 'Ethereal') {
-    console.log('📧 Preview URL:', nodemailer.getTestMessageUrl(info));
-  }
-
-  return info;
 };
 
 module.exports = { sendPasswordResetCode, verifyEmailConfig };

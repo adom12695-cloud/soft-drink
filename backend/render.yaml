@@ -13,7 +13,6 @@ services:
         value: production
       - key: PORT
         value: 10000
-      # ── Set these in the Render dashboard (never commit real values) ──
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
@@ -21,22 +20,18 @@ services:
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: ALLOWED_ORIGINS
-        sync: false          # paste your Vercel URL here after deploying frontend
+        sync: false
+      # ── Email via Brevo SMTP (works on Render free tier) ──────────────────
+      # Sign up free at https://app.brevo.com → SMTP & API → SMTP tab
       - key: EMAIL_HOST
-        value: smtp.gmail.com
+        value: smtp-relay.brevo.com
       - key: EMAIL_PORT
-        value: 465
+        value: 587
       - key: EMAIL_SECURE
-        value: true
+        value: false
       - key: EMAIL_USER
         sync: false
+      - key: EMAIL_PASS
+        sync: false
       - key: EMAIL_FROM
-        sync: false
-      # ── Gmail OAuth2 (recommended — SMTP is blocked on Render free tier) ──
-      # Remove EMAIL_HOST / EMAIL_PORT / EMAIL_PASS once OAuth2 is configured
-      - key: GMAIL_CLIENT_ID
-        sync: false
-      - key: GMAIL_CLIENT_SECRET
-        sync: false
-      - key: GMAIL_REFRESH_TOKEN
         sync: false
