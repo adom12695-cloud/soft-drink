@@ -1,38 +1,58 @@
 const nodemailer = require('nodemailer');
-const net        = require('net');
+const dns        = require('dns');
+const { promisify } = require('util');
 
-// ─── Create reusable transporter ─────────────────────────────────────────────
-const createTransporter = () => {
+const resolve4 = promisify(dns.resolve4);
+
+// ─── Resolve hostname to IPv4 manually ───────────────────────────────────────
+// Render free tier has no IPv6 outbound — we bypass DNS by resolving to a
+// raw IPv4 address and passing it directly to nodemailer as the host.
+const resolveIPv4 = async (hostname) => {
+  try {
+    const addresses = await resolve4(hostname);
+    if (addresses && addresses.length > 0) return addresses[0];
+  } catch {
+    // fall back to hostname if DNS lookup fails
+  }
+  return hostname;
+};
+
+// ─── Create transporter with forced IPv4 host ─────────────────────────────────
+const createTransporter = async () => {
+  const smtpHost = process.env.EMAIL_HOST || 'smtp.gmail.com';
+  const ipv4Host = await resolveIPv4(smtpHost);
+
   return nodemailer.createTransport({
-    host:   process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port:   Number(process.env.EMAIL_PORT) || 465,
-    secure: process.env.EMAIL_SECURE !== 'false', // true for 465 (SSL), false for 587
+    host:   ipv4Host,          // raw IPv4 e.g. 142.250.80.109
+    port:   465,
+    secure: true,              // SSL on 465
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    // ── Force IPv4 — Render free tier does not support IPv6 outbound ──────────
-    family: 4,
     tls: {
-      rejectUnauthorized: false,
+      // Must match the cert's CN (smtp.gmail.com), not the raw IP
+      servername:           smtpHost,
+      rejectUnauthorized:   false,
     },
-    // Generous timeouts for cloud environments
-    connectionTimeout: 10000,
+    connectionTimeout: 15000,
     greetingTimeout:   10000,
-    socketTimeout:     15000,
+    socketTimeout:     20000,
   });
 };
 
-// ─── Verify SMTP connection (call on server start) ────────────────────────────
+// ─── Verify SMTP connection on server start ───────────────────────────────────
 const verifyEmailConfig = async () => {
-  // Skip if email is not configured
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS ||
-      process.env.EMAIL_USER.includes('your_gmail')) {
+  if (
+    !process.env.EMAIL_USER ||
+    !process.env.EMAIL_PASS ||
+    process.env.EMAIL_USER.includes('your_gmail')
+  ) {
     console.warn('⚠️  Email not configured — password reset emails will not send.');
     return;
   }
   try {
-    const transporter = createTransporter();
+    const transporter = await createTransporter();
     await transporter.verify();
     console.log(`✅ Email service ready (${process.env.EMAIL_USER})`);
   } catch (err) {
@@ -45,7 +65,7 @@ const verifyEmailConfig = async () => {
 
 // ─── Send password reset OTP ──────────────────────────────────────────────────
 const sendPasswordResetCode = async ({ to, name, code }) => {
-  const transporter = createTransporter();
+  const transporter = await createTransporter();
 
   const html = `
 <!DOCTYPE html>
