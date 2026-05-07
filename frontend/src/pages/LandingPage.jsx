@@ -134,108 +134,176 @@ const Hero = () => {
   const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
 
-      {/* Background image */}
+      {/* ── Background: split image right side ── */}
       <div className="absolute inset-0">
+        {/* Full bleed image — right half visible, left fades to dark */}
         <img
           src={IMAGES.hero}
-          alt="Soft drink bottles"
-          className="w-full h-full object-cover object-center scale-105"
-          style={{ filter: 'brightness(0.65)' }}
+          alt="Pepsi cans on ice"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ filter: 'brightness(0.7) saturate(1.1)' }}
         />
-        {/* Center-focused dark overlay so centered text is readable over the image */}
-        <div className="absolute inset-0 bg-slate-950/55" />
-        {/* Bottom indigo glow */}
-        <div className="absolute bottom-0 left-0 right-0 h-48
-                        bg-gradient-to-t from-indigo-950/50 to-transparent" />
+        {/* Strong left-side dark panel so text is crisp */}
+        <div className="absolute inset-0 bg-gradient-to-r
+                        from-slate-950 via-slate-950/85 to-slate-950/20" />
+        {/* Subtle indigo tint at bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t
+                        from-indigo-950/60 via-transparent to-transparent" />
+        {/* Top vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b
+                        from-slate-950/40 via-transparent to-transparent" />
       </div>
 
-      {/* Animated ring decorations */}
+      {/* ── Decorative elements ── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full
-                        border border-indigo-500/10 animate-pulse" />
-        <div className="absolute -top-16 -right-16 w-[400px] h-[400px] rounded-full
-                        border border-indigo-400/10 animate-pulse"
-             style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full
-                        bg-indigo-600/5 blur-3xl" />
+        {/* Large glow behind text */}
+        <div className="absolute top-1/2 -translate-y-1/2 -left-32
+                        w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl" />
+        {/* Accent dot grid */}
+        <div className="absolute top-24 right-[45%] w-px h-32
+                        bg-gradient-to-b from-transparent via-indigo-500/40 to-transparent" />
+        <div className="absolute bottom-24 right-[40%] w-px h-24
+                        bg-gradient-to-b from-transparent via-blue-500/30 to-transparent" />
+        {/* Floating ring */}
+        <div className="absolute top-1/3 right-[38%] w-64 h-64 rounded-full
+                        border border-indigo-500/10 animate-pulse"
+             style={{ animationDuration: '4s' }} />
       </div>
 
-      {/* Content — fully centered */}
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8
-                      flex flex-col items-center justify-center min-h-screen pt-20 pb-24 text-center">
-        <div className="max-w-3xl w-full mx-auto">
+      {/* ── Main content ── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto
+                      px-6 sm:px-10 lg:px-16 pt-28 pb-20
+                      flex flex-col justify-center min-h-screen">
 
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-indigo-500/15 border border-indigo-400/30
-                          backdrop-blur-sm text-indigo-300 text-xs font-bold px-4 py-2
-                          rounded-full mb-8 uppercase tracking-widest">
-            <Zap size={11} className="fill-indigo-400 text-indigo-400" />
-            Enterprise Distribution Platform
+        {/* ── Left column — all text ── */}
+        <div className="max-w-xl">
+
+          {/* Eyebrow badge */}
+          <div className="inline-flex items-center gap-2.5 mb-8">
+            <span className="flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30
+                             text-indigo-300 text-[11px] font-bold px-4 py-2 rounded-full
+                             uppercase tracking-[0.15em] backdrop-blur-sm">
+              <Zap size={10} className="text-indigo-400" />
+              Enterprise Distribution Platform
+            </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight">
-            Distribute
-            <span className="block text-transparent bg-clip-text
-                             bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400">
+          <h1 className="font-black text-white tracking-tight leading-[1.0] mb-7">
+            <span className="block text-5xl sm:text-6xl lg:text-[72px]">
+              Distribute
+            </span>
+            <span className="block text-5xl sm:text-6xl lg:text-[72px]
+                             text-transparent bg-clip-text
+                             bg-gradient-to-r from-indigo-400 via-blue-300 to-cyan-400
+                             drop-shadow-[0_0_30px_rgba(99,102,241,0.5)]">
               Smarter.
             </span>
-            <span className="text-white/90">Sell Faster.</span>
+            <span className="block text-5xl sm:text-6xl lg:text-[72px] text-white/85">
+              Sell Faster.
+            </span>
           </h1>
 
+          {/* Divider line */}
+          <div className="flex items-center gap-3 mb-7">
+            <div className="w-10 h-0.5 bg-indigo-500 rounded-full" />
+            <div className="w-4 h-0.5 bg-indigo-500/40 rounded-full" />
+            <div className="w-2 h-0.5 bg-indigo-500/20 rounded-full" />
+          </div>
+
           {/* Subtext */}
-          <p className="text-lg sm:text-xl text-slate-300/90 leading-relaxed mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-10 max-w-md">
             The all-in-one supply chain platform built for soft drink distributors.
             Track inventory, manage orders, and coordinate deliveries — all in real time.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-14 justify-center">
-            <Link to="/register"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4
-                         bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row items-start gap-4 mb-12">
+            <Link
+              to="/register"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5
+                         bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm
                          rounded-xl transition-all duration-200
-                         shadow-[0_0_30px_rgba(99,102,241,0.4)] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]
-                         hover:-translate-y-0.5">
+                         shadow-[0_8px_32px_rgba(99,102,241,0.45)]
+                         hover:shadow-[0_8px_40px_rgba(99,102,241,0.65)]
+                         hover:-translate-y-0.5 active:translate-y-0"
+            >
               Start Free Today
-              <ArrowRight size={18} />
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <button onClick={() => scrollTo('#how-it-works')}
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4
-                         bg-white/8 hover:bg-white/15 backdrop-blur-sm text-white
-                         font-semibold text-base rounded-xl border border-white/15
-                         hover:border-white/30 transition-all duration-200">
+            <button
+              onClick={() => scrollTo('#how-it-works')}
+              className="inline-flex items-center gap-2 px-7 py-3.5
+                         text-slate-300 hover:text-white text-sm font-semibold
+                         border border-slate-700 hover:border-slate-500
+                         rounded-xl transition-all duration-200 backdrop-blur-sm
+                         hover:bg-white/5"
+            >
               See How It Works
-              <ChevronDown size={16} />
+              <ChevronDown size={15} />
             </button>
           </div>
 
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+          {/* Trust row */}
+          <div className="flex flex-wrap items-center gap-6">
             {[
               { icon: CheckCircle, text: 'Real-time Tracking' },
-              { icon: ShieldCheck, text: 'Role-Based Access' },
-              { icon: Zap,         text: 'Instant Invoices'  },
+              { icon: ShieldCheck, text: 'Role-Based Access'  },
+              { icon: Package,     text: 'Instant Invoices'   },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-slate-400 text-sm">
-                <Icon size={15} className="text-indigo-400 flex-shrink-0" />
-                {text}
+              <div key={text} className="flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
+                  <Icon size={11} className="text-indigo-400" />
+                </div>
+                <span className="text-slate-400 text-xs font-medium">{text}</span>
               </div>
             ))}
           </div>
         </div>
+
+        {/* ── Floating stats card — bottom right of text area ── */}
+        <div className="absolute bottom-16 right-8 lg:right-16 hidden lg:block">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10
+                          rounded-2xl p-5 shadow-2xl w-64">
+            <p className="text-xs text-slate-400 font-medium uppercase tracking-widest mb-4">
+              Live Platform Stats
+            </p>
+            <div className="space-y-3">
+              {[
+                { label: 'Orders Processed', value: '10,000+', color: 'bg-indigo-500' },
+                { label: 'Active Retailers',  value: '500+',    color: 'bg-emerald-500' },
+                { label: 'On-Time Delivery',  value: '98.5%',   color: 'bg-blue-500'   },
+              ].map((s) => (
+                <div key={s.label} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-1.5 h-1.5 rounded-full ${s.color}`} />
+                    <span className="text-slate-400 text-xs">{s.label}</span>
+                  </div>
+                  <span className="text-white text-sm font-bold">{s.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-emerald-400 text-xs font-medium">System Live</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* ── Scroll indicator ── */}
       <button
         onClick={() => scrollTo('#stats')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center
-                   gap-1 text-white/40 hover:text-white/80 transition-colors group"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2
+                   flex flex-col items-center gap-1.5
+                   text-slate-500 hover:text-slate-300 transition-colors"
       >
-        <span className="text-xs tracking-widest uppercase font-medium">Scroll</span>
-        <ChevronDown size={20} className="animate-bounce" />
+        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold">Scroll</span>
+        <div className="w-5 h-8 border border-slate-600 rounded-full flex items-start justify-center pt-1.5">
+          <div className="w-1 h-2 bg-slate-400 rounded-full animate-bounce" />
+        </div>
       </button>
     </section>
   )
