@@ -8,8 +8,8 @@ import {
 
 // ─── Image assets (Unsplash + official CDN URLs) ──────────────────────────────
 const IMAGES = {
-  // Hero — Pepsi cans on ice, vibrant blue
-  hero: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=1400&q=80',
+  // Hero — Pepsi cans splashing, vibrant & sharp
+  hero:       'https://images.unsplash.com/photo-1581006852262-e4307cf6283a?w=1600&q=90',
   // Products section
   pepsiCan:   'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600&q=80',
   cocaCola:   'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80',
@@ -17,10 +17,13 @@ const IMAGES = {
   juice:      'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&q=80',
   water:      'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80',
   sparkling:  'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80',
-  // About / warehouse
-  warehouse:  'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80',
-  // Delivery
-  delivery:   'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200&q=80',
+  // How It Works
+  warehouse:  'https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80',
+  retailer:   'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+  stock:      'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80',
+  delivery:   'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&q=80',
+  // CTA banner — bottles on conveyor
+  cta:        'https://images.unsplash.com/photo-1624517452488-04061fc9e6e4?w=1600&q=90',
 }
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
@@ -135,81 +138,89 @@ const Hero = () => {
 
       {/* Background image */}
       <div className="absolute inset-0">
-        <img src={IMAGES.hero} alt="Pepsi cans on ice"
-          className="w-full h-full object-cover object-center" />
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/30" />
-        {/* Blue tint at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 via-transparent to-transparent" />
+        <img
+          src={IMAGES.hero}
+          alt="Soft drink bottles"
+          className="w-full h-full object-cover object-center scale-105"
+          style={{ filter: 'brightness(0.45)' }}
+        />
+        {/* Left-to-right dark fade so text pops */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
+        {/* Bottom indigo glow */}
+        <div className="absolute bottom-0 left-0 right-0 h-48
+                        bg-gradient-to-t from-indigo-950/70 to-transparent" />
       </div>
 
-      {/* Floating bubbles decoration */}
+      {/* Animated ring decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <div key={i}
-            className="absolute rounded-full bg-white/5 border border-white/10 animate-pulse"
-            style={{
-              width:  `${40 + i * 20}px`,
-              height: `${40 + i * 20}px`,
-              top:    `${10 + i * 10}%`,
-              left:   `${60 + (i % 3) * 12}%`,
-              animationDelay: `${i * 0.4}s`,
-              animationDuration: `${3 + i * 0.5}s`,
-            }}
-          />
-        ))}
+        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full
+                        border border-indigo-500/10 animate-pulse" />
+        <div className="absolute -top-16 -right-16 w-[400px] h-[400px] rounded-full
+                        border border-indigo-400/10 animate-pulse"
+             style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full
+                        bg-indigo-600/5 blur-3xl" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="max-w-2xl">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+        <div className="max-w-3xl">
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30
-                          backdrop-blur-sm text-indigo-300 text-xs font-semibold px-4 py-2
-                          rounded-full mb-6 uppercase tracking-widest">
-            <Zap size={12} />
+          <div className="inline-flex items-center gap-2 bg-indigo-500/15 border border-indigo-400/30
+                          backdrop-blur-sm text-indigo-300 text-xs font-bold px-4 py-2
+                          rounded-full mb-8 uppercase tracking-widest">
+            <Zap size={11} className="fill-indigo-400 text-indigo-400" />
             Enterprise Distribution Platform
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
+          {/* Headline */}
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight">
             Distribute
             <span className="block text-transparent bg-clip-text
-                             bg-gradient-to-r from-indigo-400 to-blue-400">
+                             bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400">
               Smarter.
             </span>
-            Sell Faster.
+            <span className="text-white/90">Sell Faster.</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-10 max-w-xl">
-            The all-in-one supply chain platform for soft drink distributors.
+          {/* Subtext */}
+          <p className="text-lg sm:text-xl text-slate-300/90 leading-relaxed mb-10 max-w-2xl">
+            The all-in-one supply chain platform built for soft drink distributors.
             Track inventory, manage orders, and coordinate deliveries — all in real time.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-14">
             <Link to="/register"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4
                          bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base
-                         rounded-xl transition-all duration-200 shadow-lg shadow-indigo-900/50
-                         hover:shadow-indigo-600/40 hover:-translate-y-0.5">
+                         rounded-xl transition-all duration-200
+                         shadow-[0_0_30px_rgba(99,102,241,0.4)] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]
+                         hover:-translate-y-0.5">
               Start Free Today
               <ArrowRight size={18} />
             </Link>
             <button onClick={() => scrollTo('#how-it-works')}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4
-                         bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white
-                         font-semibold text-base rounded-xl border border-white/20
-                         transition-all duration-200">
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4
+                         bg-white/8 hover:bg-white/15 backdrop-blur-sm text-white
+                         font-semibold text-base rounded-xl border border-white/15
+                         hover:border-white/30 transition-all duration-200">
               See How It Works
+              <ChevronDown size={16} />
             </button>
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-6 mt-12">
-            {['Real-time Tracking', 'Role-Based Access', 'Instant Invoices'].map((t) => (
-              <div key={t} className="flex items-center gap-2 text-slate-300 text-sm">
-                <CheckCircle size={16} className="text-indigo-400 flex-shrink-0" />
-                {t}
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            {[
+              { icon: CheckCircle, text: 'Real-time Tracking' },
+              { icon: ShieldCheck, text: 'Role-Based Access' },
+              { icon: Zap,         text: 'Instant Invoices'  },
+            ].map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center gap-2 text-slate-400 text-sm">
+                <Icon size={15} className="text-indigo-400 flex-shrink-0" />
+                {text}
               </div>
             ))}
           </div>
@@ -217,10 +228,13 @@ const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
-      <button onClick={() => scrollTo('#stats')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50
-                   hover:text-white transition-colors animate-bounce">
-        <ChevronDown size={28} />
+      <button
+        onClick={() => scrollTo('#stats')}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center
+                   gap-1 text-white/40 hover:text-white/80 transition-colors group"
+      >
+        <span className="text-xs tracking-widest uppercase font-medium">Scroll</span>
+        <ChevronDown size={20} className="animate-bounce" />
       </button>
     </section>
   )
@@ -400,80 +414,139 @@ const HowItWorks = () => {
     {
       step: '01',
       role: 'Distributor',
-      color: 'bg-indigo-600',
+      roleBg: 'bg-indigo-600',
+      accent: 'border-indigo-500/40 hover:border-indigo-400',
+      glow: 'group-hover:shadow-indigo-500/20',
       title: 'Set Up Your Catalog',
-      desc: 'Add products, set prices, and create accounts for your warehouse team, retailers, and drivers.',
+      desc: 'Add products, set prices, and create accounts for your warehouse team, retailers, and drivers. Full control from day one.',
       img: IMAGES.warehouse,
     },
     {
       step: '02',
       role: 'Retailer',
-      color: 'bg-emerald-600',
+      roleBg: 'bg-emerald-600',
+      accent: 'border-emerald-500/40 hover:border-emerald-400',
+      glow: 'group-hover:shadow-emerald-500/20',
       title: 'Browse & Order',
-      desc: 'Retailers log in, browse the live product catalog, and place orders with real-time stock visibility.',
-      img: IMAGES.pepsiCan,
+      desc: 'Retailers log in, browse the live product catalog, and place orders with real-time stock visibility. No phone calls needed.',
+      img: IMAGES.retailer,
     },
     {
       step: '03',
       role: 'Warehouse',
-      color: 'bg-blue-600',
+      roleBg: 'bg-blue-600',
+      accent: 'border-blue-500/40 hover:border-blue-400',
+      glow: 'group-hover:shadow-blue-500/20',
       title: 'Manage Stock',
-      desc: 'Warehouse managers record stock in/out movements. Every change is logged with a full audit trail.',
-      img: IMAGES.cocaCola,
+      desc: 'Warehouse managers record every stock movement. Full audit trail, low-stock alerts, and instant visibility across all products.',
+      img: IMAGES.stock,
     },
     {
       step: '04',
       role: 'Delivery',
-      color: 'bg-amber-500',
+      roleBg: 'bg-amber-500',
+      accent: 'border-amber-500/40 hover:border-amber-400',
+      glow: 'group-hover:shadow-amber-500/20',
       title: 'Dispatch & Deliver',
-      desc: 'Distributors assign orders to drivers. Drivers update status from Dispatched to Delivered on the go.',
+      desc: 'Distributors assign orders to drivers in one click. Drivers update status on the go — retailers get notified instantly.',
       img: IMAGES.delivery,
     },
   ]
 
   return (
-    <section id="how-it-works" className="py-24 bg-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="py-28 bg-slate-950 relative overflow-hidden">
 
-        <div className="text-center mb-16">
-          <span className="text-indigo-400 text-sm font-bold uppercase tracking-widest">The Process</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mt-3 mb-4">
-            How It Works
+      {/* Background glow blobs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Header */}
+        <div className="text-center mb-20">
+          <span className="inline-flex items-center gap-2 text-indigo-400 text-xs font-bold
+                           uppercase tracking-widest bg-indigo-500/10 border border-indigo-500/20
+                           px-4 py-2 rounded-full mb-5">
+            <Zap size={11} />
+            The Process
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-black text-white mt-2 mb-5 tracking-tight">
+            Four Roles.{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+              One Workflow.
+            </span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            Four roles, one seamless workflow — from warehouse shelf to retailer door.
+          <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+            From warehouse shelf to retailer door — every step tracked, every role empowered.
           </p>
         </div>
 
+        {/* Steps grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {steps.map((s) => (
-            <div key={s.step}
-              className="group relative overflow-hidden rounded-2xl bg-slate-800 border border-slate-700
-                         hover:border-indigo-500/50 transition-all duration-300">
-              {/* Background image */}
+          {steps.map((s, idx) => (
+            <div
+              key={s.step}
+              className={`group relative overflow-hidden rounded-2xl bg-slate-900
+                          border ${s.accent} transition-all duration-300
+                          hover:shadow-2xl ${s.glow}`}
+            >
+              {/* Full background image with strong overlay */}
               <div className="absolute inset-0">
-                <img src={s.img} alt={s.title}
-                  className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-800/90 to-slate-900/80" />
+                <img
+                  src={s.img}
+                  alt={s.title}
+                  className="w-full h-full object-cover transition-transform duration-700
+                             group-hover:scale-105"
+                  style={{ filter: 'brightness(0.25)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-transparent" />
               </div>
 
-              <div className="relative p-8">
-                <div className="flex items-start gap-5">
-                  <div className={`flex-shrink-0 w-12 h-12 ${s.color} rounded-xl flex items-center
-                                  justify-center text-white font-black text-lg shadow-lg`}>
+              {/* Content */}
+              <div className="relative p-8 min-h-[220px] flex flex-col justify-between">
+                {/* Top row: step number + role badge */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className={`w-14 h-14 ${s.roleBg} rounded-2xl flex items-center
+                                  justify-center text-white font-black text-xl shadow-lg
+                                  ring-4 ring-white/10`}>
                     {s.step}
                   </div>
-                  <div>
-                    <span className={`text-xs font-bold uppercase tracking-widest px-2.5 py-1
-                                     rounded-full text-white ${s.color} mb-3 inline-block`}>
-                      {s.role}
-                    </span>
-                    <h3 className="text-xl font-bold text-white mb-2">{s.title}</h3>
-                    <p className="text-slate-400 text-sm leading-relaxed">{s.desc}</p>
-                  </div>
+                  <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1.5
+                                   rounded-full text-white ${s.roleBg} shadow-sm`}>
+                    {s.role}
+                  </span>
                 </div>
+
+                {/* Text */}
+                <div>
+                  <h3 className="text-2xl font-black text-white mb-3 leading-tight">
+                    {s.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    {s.desc}
+                  </p>
+                </div>
+
+                {/* Step connector line (not on last two) */}
+                {idx < 2 && (
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-px h-6
+                                  bg-gradient-to-b from-slate-600 to-transparent
+                                  hidden md:block" />
+                )}
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Bottom connector */}
+        <div className="flex items-center justify-center mt-16 gap-4">
+          {steps.map((s, i) => (
+            <React.Fragment key={s.step}>
+              <div className={`w-3 h-3 rounded-full ${s.roleBg} shadow-lg`} />
+              {i < steps.length - 1 && (
+                <div className="flex-1 max-w-[80px] h-px bg-gradient-to-r from-slate-700 to-slate-600" />
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>
@@ -584,39 +657,84 @@ const Testimonials = () => {
 
 // ─── CTA Banner ───────────────────────────────────────────────────────────────
 const CTABanner = () => (
-  <section className="relative py-24 overflow-hidden">
+  <section className="relative py-32 overflow-hidden">
+
     {/* Background */}
     <div className="absolute inset-0">
-      <img src={IMAGES.delivery} alt="Delivery truck"
-        className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/95 via-indigo-900/85 to-indigo-900/70" />
+      <img
+        src={IMAGES.cta}
+        alt="Soft drink production line"
+        className="w-full h-full object-cover object-center"
+        style={{ filter: 'brightness(0.3) saturate(1.2)' }}
+      />
+      {/* Deep indigo overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/90 via-slate-900/80 to-indigo-900/70" />
+      {/* Top edge fade */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-slate-50 to-transparent" />
+    </div>
+
+    {/* Glow orbs */}
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                      w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
     </div>
 
     <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20
-                      text-indigo-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 uppercase tracking-widest">
+
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 bg-indigo-500/15 border border-indigo-400/25
+                      text-indigo-300 text-xs font-bold px-5 py-2.5 rounded-full mb-8
+                      uppercase tracking-widest backdrop-blur-sm">
         <Package size={12} />
         Ready to Scale?
       </div>
-      <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">
-        Start Managing Your<br />Distribution Network Today
+
+      {/* Headline */}
+      <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
+        Start Managing Your
+        <span className="block text-transparent bg-clip-text
+                         bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400">
+          Distribution Network
+        </span>
+        Today
       </h2>
-      <p className="text-indigo-200 text-lg mb-10 max-w-xl mx-auto">
-        Set up your account in minutes. Add your team, load your products, and start taking orders.
+
+      {/* Subtext */}
+      <p className="text-slate-300/80 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
+        Set up your account in minutes. Add your team, load your products,
+        and start taking orders — no credit card required.
       </p>
+
+      {/* Feature pills */}
+      <div className="flex flex-wrap justify-center gap-3 mb-12">
+        {['Free to start', '4 user roles', 'Real-time inventory', 'Order tracking', 'Email notifications'].map((f) => (
+          <span key={f}
+            className="flex items-center gap-1.5 bg-white/8 border border-white/10
+                       text-white/70 text-xs font-medium px-4 py-2 rounded-full backdrop-blur-sm">
+            <CheckCircle size={12} className="text-indigo-400" />
+            {f}
+          </span>
+        ))}
+      </div>
+
+      {/* CTAs */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Link to="/register"
-          className="inline-flex items-center justify-center gap-2 px-10 py-4
-                     bg-white hover:bg-slate-100 text-indigo-700 font-bold text-base
-                     rounded-xl transition-colors shadow-xl">
+          className="inline-flex items-center justify-center gap-2.5 px-10 py-4
+                     bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base
+                     rounded-xl transition-all duration-200
+                     shadow-[0_0_40px_rgba(99,102,241,0.4)] hover:shadow-[0_0_60px_rgba(99,102,241,0.6)]
+                     hover:-translate-y-0.5">
           Create Free Account
           <ArrowRight size={18} />
         </Link>
         <Link to="/login"
-          className="inline-flex items-center justify-center gap-2 px-10 py-4
-                     bg-white/10 hover:bg-white/20 border border-white/30 text-white
-                     font-semibold text-base rounded-xl transition-colors backdrop-blur-sm">
-          Sign In
+          className="inline-flex items-center justify-center gap-2.5 px-10 py-4
+                     bg-white/8 hover:bg-white/15 border border-white/15 hover:border-white/30
+                     text-white font-semibold text-base rounded-xl
+                     transition-all duration-200 backdrop-blur-sm">
+          Sign In to Dashboard
         </Link>
       </div>
     </div>
