@@ -145,12 +145,11 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ filter: 'brightness(0.7) saturate(1.1)' }}
         />
-        {/* Strong left-side dark panel so text is crisp */}
-        <div className="absolute inset-0 bg-gradient-to-r
-                        from-slate-950 via-slate-950/85 to-slate-950/20" />
+        {/* Uniform dark overlay — image visible on both sides */}
+        <div className="absolute inset-0 bg-slate-950/60" />
         {/* Subtle indigo tint at bottom */}
         <div className="absolute inset-0 bg-gradient-to-t
-                        from-indigo-950/60 via-transparent to-transparent" />
+                        from-indigo-950/50 via-transparent to-transparent" />
         {/* Top vignette */}
         <div className="absolute inset-0 bg-gradient-to-b
                         from-slate-950/40 via-transparent to-transparent" />
@@ -175,10 +174,10 @@ const Hero = () => {
       {/* ── Main content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto
                       px-6 sm:px-10 lg:px-16 pt-28 pb-20
-                      flex flex-col justify-center min-h-screen">
+                      flex flex-col items-center justify-center min-h-screen text-center">
 
-        {/* ── Left column — all text ── */}
-        <div className="max-w-xl">
+        {/* ── Centered content ── */}
+        <div className="max-w-2xl w-full mx-auto">
 
           {/* Eyebrow badge */}
           <div className="inline-flex items-center gap-2.5 mb-8">
@@ -207,20 +206,20 @@ const Hero = () => {
           </h1>
 
           {/* Divider line */}
-          <div className="flex items-center gap-3 mb-7">
+          <div className="flex items-center gap-3 mb-7 justify-center">
             <div className="w-10 h-0.5 bg-indigo-500 rounded-full" />
             <div className="w-4 h-0.5 bg-indigo-500/40 rounded-full" />
             <div className="w-2 h-0.5 bg-indigo-500/20 rounded-full" />
           </div>
 
           {/* Subtext */}
-          <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-10 max-w-md">
+          <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-10 max-w-md mx-auto">
             The all-in-one supply chain platform built for soft drink distributors.
             Track inventory, manage orders, and coordinate deliveries — all in real time.
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Link
               to="/register"
               className="group inline-flex items-center gap-2.5 px-7 py-3.5
@@ -247,7 +246,7 @@ const Hero = () => {
           </div>
 
           {/* Trust row */}
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             {[
               { icon: CheckCircle, text: 'Real-time Tracking' },
               { icon: ShieldCheck, text: 'Role-Based Access'  },
