@@ -144,8 +144,8 @@ const Hero = () => {
           className="w-full h-full object-cover object-center scale-105"
           style={{ filter: 'brightness(0.65)' }}
         />
-        {/* Left-to-right dark fade so text pops */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-900/40 to-transparent" />
+        {/* Center-focused dark overlay so centered text is readable over the image */}
+        <div className="absolute inset-0 bg-slate-950/55" />
         {/* Bottom indigo glow */}
         <div className="absolute bottom-0 left-0 right-0 h-48
                         bg-gradient-to-t from-indigo-950/50 to-transparent" />
@@ -162,10 +162,10 @@ const Hero = () => {
                         bg-indigo-600/5 blur-3xl" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 sm:px-12 lg:px-20 w-full
-                      flex items-center min-h-screen pt-20 pb-24">
-        <div className="max-w-2xl w-full">
+      {/* Content — fully centered */}
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8
+                      flex flex-col items-center justify-center min-h-screen pt-20 pb-24 text-center">
+        <div className="max-w-3xl w-full mx-auto">
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-indigo-500/15 border border-indigo-400/30
@@ -186,13 +186,13 @@ const Hero = () => {
           </h1>
 
           {/* Subtext */}
-          <p className="text-lg sm:text-xl text-slate-300/90 leading-relaxed mb-10 max-w-2xl">
+          <p className="text-lg sm:text-xl text-slate-300/90 leading-relaxed mb-10 max-w-2xl mx-auto">
             The all-in-one supply chain platform built for soft drink distributors.
             Track inventory, manage orders, and coordinate deliveries — all in real time.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-14">
+          <div className="flex flex-col sm:flex-row gap-4 mb-14 justify-center">
             <Link to="/register"
               className="inline-flex items-center justify-center gap-2.5 px-8 py-4
                          bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base
@@ -213,7 +213,7 @@ const Hero = () => {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {[
               { icon: CheckCircle, text: 'Real-time Tracking' },
               { icon: ShieldCheck, text: 'Role-Based Access' },
