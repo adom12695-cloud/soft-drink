@@ -59,6 +59,7 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB and start server
+// Render assigns PORT via env var — always use process.env.PORT
 const PORT = process.env.PORT || 5000;
 
 mongoose
