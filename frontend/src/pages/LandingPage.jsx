@@ -163,8 +163,9 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
-        <div className="max-w-3xl">
+      <div className="relative z-10 max-w-7xl mx-auto px-8 sm:px-12 lg:px-20 w-full
+                      flex items-center min-h-screen pt-20 pb-24">
+        <div className="max-w-2xl w-full">
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-indigo-500/15 border border-indigo-400/30
