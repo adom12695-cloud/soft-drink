@@ -8,8 +8,8 @@ import {
 
 // ─── Image assets (Unsplash + official CDN URLs) ──────────────────────────────
 const IMAGES = {
-  // Hero — Pepsi cans splashing, vibrant & sharp
-  hero:       'https://images.unsplash.com/photo-1581006852262-e4307cf6283a?w=1600&q=90',
+  // Hero — Pepsi cans on ice, vibrant blue
+  hero:       'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=1600&q=90',
   // Products section
   pepsiCan:   'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600&q=80',
   cocaCola:   'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80',
@@ -142,13 +142,13 @@ const Hero = () => {
           src={IMAGES.hero}
           alt="Soft drink bottles"
           className="w-full h-full object-cover object-center scale-105"
-          style={{ filter: 'brightness(0.45)' }}
+          style={{ filter: 'brightness(0.65)' }}
         />
         {/* Left-to-right dark fade so text pops */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-900/40 to-transparent" />
         {/* Bottom indigo glow */}
         <div className="absolute bottom-0 left-0 right-0 h-48
-                        bg-gradient-to-t from-indigo-950/70 to-transparent" />
+                        bg-gradient-to-t from-indigo-950/50 to-transparent" />
       </div>
 
       {/* Animated ring decorations */}
