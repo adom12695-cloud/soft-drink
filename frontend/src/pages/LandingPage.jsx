@@ -254,12 +254,12 @@ const Stats = () => {
 // ─── Products Showcase ────────────────────────────────────────────────────────
 const Products = () => {
   const categories = [
-    { label: 'Cola',          img: IMAGES.pepsiCan,    count: '3 brands',  color: 'from-blue-600 to-indigo-700'   },
-    { label: 'Sparkling',     img: IMAGES.sparkling,   count: '4 brands',  color: 'from-cyan-500 to-blue-600'     },
-    { label: 'Energy Drinks', img: IMAGES.energyDrink, count: '3 brands',  color: 'from-yellow-500 to-orange-600' },
-    { label: 'Juices',        img: IMAGES.juice,       count: '2 brands',  color: 'from-orange-400 to-red-500'    },
-    { label: 'Water',         img: IMAGES.water,       count: '3 brands',  color: 'from-sky-400 to-cyan-500'      },
-    { label: 'Iced Tea',      img: IMAGES.cocaCola,    count: '2 brands',  color: 'from-amber-500 to-yellow-600'  },
+    { label: 'Cola',          img: IMAGES.pepsiCan,    count: '3 brands',  color: 'from-slate-900/60 to-indigo-900/40'   },
+    { label: 'Sparkling',     img: IMAGES.sparkling,   count: '4 brands',  color: 'from-slate-900/60 to-cyan-900/40'     },
+    { label: 'Energy Drinks', img: IMAGES.energyDrink, count: '3 brands',  color: 'from-slate-900/60 to-orange-900/40'   },
+    { label: 'Juices',        img: IMAGES.juice,       count: '2 brands',  color: 'from-slate-900/60 to-orange-800/40'   },
+    { label: 'Water',         img: IMAGES.water,       count: '3 brands',  color: 'from-slate-900/60 to-sky-900/40'      },
+    { label: 'Iced Tea',      img: IMAGES.cocaCola,    count: '2 brands',  color: 'from-slate-900/60 to-amber-900/40'    },
   ]
 
   return (
@@ -285,8 +285,8 @@ const Products = () => {
               {/* Image */}
               <img src={cat.img} alt={cat.label}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-              {/* Gradient overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} opacity-70 group-hover:opacity-80 transition-opacity`} />
+              {/* Gradient overlay — subtle dark tint so text is readable but image shows through */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} transition-opacity group-hover:opacity-90`} />
               {/* Text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                 <p className="text-xl sm:text-2xl font-black drop-shadow-lg">{cat.label}</p>
