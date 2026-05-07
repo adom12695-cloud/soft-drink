@@ -192,13 +192,9 @@ const Hero = () => {
           {/* Headline */}
           <h1 className="font-black text-white tracking-tight leading-[1.0] mb-7">
             <span className="block text-5xl sm:text-6xl lg:text-[72px]">
-              Distribute
-            </span>
-            <span className="block text-5xl sm:text-6xl lg:text-[72px]
-                             text-transparent bg-clip-text
+              Distribute <span className="text-transparent bg-clip-text
                              bg-gradient-to-r from-indigo-400 via-blue-300 to-cyan-400
-                             drop-shadow-[0_0_30px_rgba(99,102,241,0.5)]">
-              Smarter.
+                             drop-shadow-[0_0_30px_rgba(99,102,241,0.5)]">Smarter.</span>
             </span>
             <span className="block text-5xl sm:text-6xl lg:text-[72px] text-white/85">
               Sell Faster.
