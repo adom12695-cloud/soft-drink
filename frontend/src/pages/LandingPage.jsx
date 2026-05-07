@@ -143,16 +143,16 @@ const Hero = () => {
           src={IMAGES.hero}
           alt="Pepsi cans on ice"
           className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ filter: 'brightness(0.7) saturate(1.1)' }}
+          style={{ filter: 'brightness(0.85) saturate(1.1)' }}
         />
-        {/* Uniform dark overlay — image visible on both sides */}
-        <div className="absolute inset-0 bg-slate-950/60" />
+        {/* Uniform dark overlay — lighter so image shows clearly */}
+        <div className="absolute inset-0 bg-slate-950/40" />
         {/* Subtle indigo tint at bottom */}
         <div className="absolute inset-0 bg-gradient-to-t
-                        from-indigo-950/50 via-transparent to-transparent" />
+                        from-indigo-950/35 via-transparent to-transparent" />
         {/* Top vignette */}
         <div className="absolute inset-0 bg-gradient-to-b
-                        from-slate-950/40 via-transparent to-transparent" />
+                        from-slate-950/25 via-transparent to-transparent" />
       </div>
 
       {/* ── Decorative elements ── */}
