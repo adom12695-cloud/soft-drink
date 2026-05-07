@@ -310,9 +310,9 @@ const forgotPassword = async (req, res, next) => {
       await user.save({ validateBeforeSave: false });
 
       console.error('Email send error:', emailErr.message);
-      return res.status(500).json({
+      return res.status(503).json({
         success: false,
-        message: 'Failed to send reset email. Please check your email configuration and try again.',
+        message: 'Email service is currently unavailable. Please contact the administrator or try again later.',
       });
     }
 

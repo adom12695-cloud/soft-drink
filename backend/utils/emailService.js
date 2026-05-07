@@ -23,7 +23,7 @@ const createTransporter = () => {
 // ─── Verify on server start ───────────────────────────────────────────────────
 const verifyEmailConfig = async () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn('⚠️  Email not configured — password reset emails will not send.');
+    console.warn('⚠️  Email not configured — password reset emails disabled.');
     return;
   }
   try {
@@ -31,8 +31,10 @@ const verifyEmailConfig = async () => {
     await transporter.verify();
     console.log(`✅ Email service ready (${process.env.EMAIL_HOST} / ${process.env.EMAIL_USER})`);
   } catch (err) {
-    console.error(`❌ Email config error: ${err.message}`);
-    console.error(`   Host: ${process.env.EMAIL_HOST}  Port: ${process.env.EMAIL_PORT}`);
+    // On Render free tier, SMTP ports 25/465/587 are blocked at the network level.
+    // Upgrade to a paid plan to enable outbound SMTP.
+    console.warn(`⚠️  Email unavailable: ${err.message}`);
+    console.warn('   Password reset emails will not be sent on this plan.');
   }
 };
 
