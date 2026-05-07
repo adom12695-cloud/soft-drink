@@ -173,15 +173,15 @@ const Hero = () => {
 
       {/* ── Main content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto
-                      px-6 sm:px-10 lg:px-16 pt-28 pb-20
+                      px-6 sm:px-10 lg:px-16 pt-24 pb-16
                       flex flex-col items-center justify-center min-h-screen text-center">
 
-        {/* ── Centered content ── */}
+        {/* ── Content ── */}
         <div className="max-w-2xl w-full mx-auto">
 
-          {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2.5 mb-8">
-            <span className="flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30
+          {/* Eyebrow badge — left aligned */}
+          <div className="flex justify-start mb-5">
+            <span className="inline-flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30
                              text-indigo-300 text-[11px] font-bold px-4 py-2 rounded-full
                              uppercase tracking-[0.15em] backdrop-blur-sm">
               <Zap size={10} className="text-indigo-400" />
@@ -190,7 +190,7 @@ const Hero = () => {
           </div>
 
           {/* Headline */}
-          <h1 className="font-black text-white tracking-tight leading-[1.0] mb-7">
+          <h1 className="font-black text-white tracking-tight leading-[1.05] mb-4">
             <span className="block text-4xl sm:text-5xl lg:text-6xl whitespace-nowrap">
               Distribute{' '}
               <span className="text-transparent bg-clip-text
@@ -199,26 +199,26 @@ const Hero = () => {
                 Smarter.
               </span>
             </span>
-            <span className="block text-4xl sm:text-5xl lg:text-6xl text-white/85 mt-2">
+            <span className="block text-4xl sm:text-5xl lg:text-6xl text-white/85 mt-1">
               Sell Faster.
             </span>
           </h1>
 
           {/* Divider line */}
-          <div className="flex items-center gap-3 mb-7 justify-center">
+          <div className="flex items-center gap-3 mb-5 justify-center">
             <div className="w-10 h-0.5 bg-indigo-500 rounded-full" />
             <div className="w-4 h-0.5 bg-indigo-500/40 rounded-full" />
             <div className="w-2 h-0.5 bg-indigo-500/20 rounded-full" />
           </div>
 
           {/* Subtext */}
-          <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-10 max-w-md mx-auto">
+          <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-7 max-w-md mx-auto">
             The all-in-one supply chain platform built for soft drink distributors.
             Track inventory, manage orders, and coordinate deliveries — all in real time.
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link
               to="/register"
               className="group inline-flex items-center gap-2.5 px-7 py-3.5
@@ -245,7 +245,7 @@ const Hero = () => {
           </div>
 
           {/* Trust row */}
-          <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-5">
             {[
               { icon: CheckCircle, text: 'Real-time Tracking' },
               { icon: ShieldCheck, text: 'Role-Based Access'  },
