@@ -22,8 +22,8 @@ const IMAGES = {
   retailer:   'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
   stock:      'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80',
   delivery:   'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&q=80',
-  // CTA banner — bottles on conveyor
-  cta:        'https://images.unsplash.com/photo-1624517452488-04061fc9e6e4?w=1600&q=90',
+  // CTA banner — Pepsi bottles on production line
+  cta:        'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=1600&q=90',
 }
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
@@ -665,10 +665,10 @@ const CTABanner = () => (
         src={IMAGES.cta}
         alt="Soft drink production line"
         className="w-full h-full object-cover object-center"
-        style={{ filter: 'brightness(0.3) saturate(1.2)' }}
+        style={{ filter: 'brightness(0.55) saturate(1.3)' }}
       />
-      {/* Deep indigo overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/90 via-slate-900/80 to-indigo-900/70" />
+      {/* Deep indigo overlay — lighter so image shows through */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/70 via-slate-900/60 to-indigo-900/50" />
       {/* Top edge fade */}
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-slate-50 to-transparent" />
     </div>
