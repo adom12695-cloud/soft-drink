@@ -83,7 +83,7 @@ const ProductModal = ({ product, onClose, onSaved }) => {
                 className="input-field" placeholder="e.g. 500ml" required />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Price per Unit ($)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Price per Unit (ETB)</label>
               <input name="pricePerUnit" type="number" min="0" step="0.01"
                 value={form.pricePerUnit} onChange={handleChange}
                 className="input-field" placeholder="0.00" required />
@@ -106,6 +106,11 @@ const ProductModal = ({ product, onClose, onSaved }) => {
               {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Product'}
             </button>
           </div>
+          {!isEdit && (
+            <p className="text-xs text-amber-600 bg-amber-50 rounded-lg p-2 text-center">
+              New products are sent to the Warehouse Manager for physical count and approval before going live.
+            </p>
+          )}
         </form>
       </div>
     </div>
@@ -221,7 +226,9 @@ const ProductsPage = () => {
 
               <div className="flex items-center justify-between text-sm">
                 <span className="font-mono text-slate-500">{product.sku}</span>
-                <span className="text-lg font-bold text-indigo-600">${product.pricePerUnit}</span>
+                <span className="text-lg font-bold text-indigo-600">
+                  ETB {Number(product.pricePerUnit).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                </span>
               </div>
 
               <div className="flex items-center justify-between">
@@ -234,9 +241,17 @@ const ProductsPage = () => {
                     <span className="ml-2 badge bg-red-100 text-red-600">Low</span>
                   )}
                 </div>
-                <span className={`badge ${product.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
-                  {product.isActive ? 'Active' : 'Inactive'}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  {product.approvalStatus === 'pending_approval' && (
+                    <span className="badge bg-amber-100 text-amber-700">Pending</span>
+                  )}
+                  {product.approvalStatus === 'rejected' && (
+                    <span className="badge bg-red-100 text-red-600">Rejected</span>
+                  )}
+                  <span className={`badge ${product.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                    {product.isActive ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
               </div>
 
               {isDistributor && (

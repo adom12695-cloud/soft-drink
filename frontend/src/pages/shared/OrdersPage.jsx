@@ -85,8 +85,12 @@ const OrderDetailModal = ({ order, onClose, onAssign, isDistributor }) => {
                     <p className="text-xs text-slate-400">{item.product?.sku} · {item.product?.unitSize}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold">${(item.priceAtOrder * item.quantity).toFixed(2)}</p>
-                    <p className="text-xs text-slate-400">×{item.quantity} @ ${item.priceAtOrder}</p>
+                    <p className="font-semibold">
+                      ETB {(item.priceAtOrder * item.quantity).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      ×{item.quantity} @ ETB {Number(item.priceAtOrder).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -96,7 +100,9 @@ const OrderDetailModal = ({ order, onClose, onAssign, isDistributor }) => {
           {/* Total */}
           <div className="flex justify-between font-bold text-slate-800 border-t border-slate-100 pt-3">
             <span>Total</span>
-            <span className="text-indigo-600">${order.totalAmount?.toLocaleString()}</span>
+            <span className="text-indigo-600">
+              ETB {Number(order.totalAmount).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+            </span>
           </div>
 
           {/* Assign delivery (distributor only, pending/confirmed orders) */}
@@ -219,7 +225,9 @@ const OrdersPage = () => {
                       <td className="px-6 py-4 text-slate-700">{order.retailer?.name}</td>
                     )}
                     <td className="px-6 py-4 text-slate-500">{order.items?.length} item(s)</td>
-                    <td className="px-6 py-4 font-semibold">${order.totalAmount?.toLocaleString()}</td>
+                  <td className="px-6 py-4 font-semibold">
+                    ETB {Number(order.totalAmount).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                  </td>
                     <td className="px-6 py-4">
                       <span className={`badge capitalize ${STATUS_STYLES[order.status]}`}>
                         {order.status}

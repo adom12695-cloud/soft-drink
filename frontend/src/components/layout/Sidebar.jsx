@@ -16,20 +16,32 @@ import {
   Droplets,
   UserCircle,
   ShieldCheck,
+  ClipboardCheck,
+  FileText,
+  FileBarChart2,
 } from 'lucide-react'
 
 // ─── Nav link definitions per role ───────────────────────────────────────────
 const NAV_LINKS = [
+  // ── All roles ──
   {
     label: 'Dashboard',
     to: '/dashboard',
     icon: LayoutDashboard,
     roles: ['distributor', 'warehouse_manager', 'retailer', 'delivery_personnel'],
   },
+
+  // ── Distributor ──
   {
     label: 'Analytics',
     to: '/analytics',
     icon: BarChart3,
+    roles: ['distributor'],
+  },
+  {
+    label: 'Reports',
+    to: '/admin-reports',
+    icon: FileBarChart2,
     roles: ['distributor'],
   },
   {
@@ -44,18 +56,36 @@ const NAV_LINKS = [
     icon: ClipboardList,
     roles: ['distributor'],
   },
+
+  // ── Shared: product catalog ──
   {
     label: 'Product Catalog',
     to: '/products',
     icon: Package,
     roles: ['distributor', 'retailer', 'warehouse_manager'],
   },
+
+  // ── Warehouse ──
   {
     label: 'Stock Control',
     to: '/stock',
     icon: Warehouse,
     roles: ['warehouse_manager', 'distributor'],
   },
+  {
+    label: 'Product Approvals',
+    to: '/warehouse/approvals',
+    icon: ClipboardCheck,
+    roles: ['warehouse_manager'],
+  },
+  {
+    label: 'My Reports',
+    to: '/reports',
+    icon: FileText,
+    roles: ['warehouse_manager'],
+  },
+
+  // ── Orders ──
   {
     label: 'All Orders',
     to: '/orders',
@@ -74,12 +104,15 @@ const NAV_LINKS = [
     icon: ClipboardList,
     roles: ['retailer'],
   },
+
+  // ── Delivery ──
   {
     label: 'My Deliveries',
     to: '/deliveries',
     icon: Truck,
     roles: ['delivery_personnel'],
   },
+
   // ── Account (all roles) ──
   {
     label: 'My Profile',
@@ -104,7 +137,7 @@ const ROLE_STYLES = {
 }
 
 const ROLE_LABELS = {
-  distributor:        'Distributor',
+  distributor:        'Admin Distributor',
   warehouse_manager:  'Warehouse Mgr',
   retailer:           'Retailer',
   delivery_personnel: 'Delivery',
@@ -157,7 +190,6 @@ const Sidebar = () => {
       {/* ── User info ── */}
       {!collapsed && (
         <div className="px-4 py-4 border-b border-slate-700/60">
-          {/* Mini avatar */}
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-9 h-9 rounded-xl overflow-hidden flex-shrink-0
                             ${!user?.profilePicture ? (ROLE_STYLES[role]?.split(' ')[0] ?? 'bg-indigo-600') : ''}`}>
@@ -189,7 +221,7 @@ const Sidebar = () => {
             <NavLink
               key={`${link.to}-${link.label}`}
               to={link.to}
-              end={link.to === '/orders'} // prevent /orders matching /orders/new
+              end={link.to === '/orders'}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                  transition-colors duration-150

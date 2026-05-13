@@ -37,12 +37,22 @@ const StatusBadge = ({ status }) => (
 
 // ─── Distributor Dashboard ────────────────────────────────────────────────────
 const DistributorDashboard = () => {
-  const [analytics, setAnalytics] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [analytics, setAnalytics]       = useState(null)
+  const [pendingReports, setPendingReports] = useState(0)
+  const [pendingProducts, setPendingProducts] = useState(0)
+  const [loading, setLoading]           = useState(true)
 
   useEffect(() => {
-    api.get('/orders/analytics')
-      .then((res) => setAnalytics(res.data.analytics))
+    Promise.all([
+      api.get('/orders/analytics'),
+      api.get('/reports', { params: { status: 'pending' } }),
+      api.get('/products/pending-approval'),
+    ])
+      .then(([analyticsRes, reportsRes, productsRes]) => {
+        setAnalytics(analyticsRes.data.analytics)
+        setPendingReports(reportsRes.data.count)
+        setPendingProducts(productsRes.data.count)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -53,15 +63,53 @@ const DistributorDashboard = () => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard label="Total Orders"   value={loading ? '…' : analytics?.totalOrders ?? 0}
+        <StatCard label="Total Orders"
+          value={loading ? '…' : analytics?.totalOrders ?? 0}
           icon={ShoppingCart} colorClass="bg-indigo-500" />
-        <StatCard label="Total Revenue"  value={loading ? '…' : `$${(analytics?.totalRevenue ?? 0).toLocaleString()}`}
+        <StatCard label="Total Revenue (ETB)"
+          value={loading ? '…' : `ETB ${(analytics?.totalRevenue ?? 0).toLocaleString('en-ET', { minimumFractionDigits: 2 })}`}
           icon={DollarSign} colorClass="bg-emerald-500" />
-        <StatCard label="Delivered"      value={loading ? '…' : getStatusCount('delivered')}
+        <StatCard label="Delivered"
+          value={loading ? '…' : getStatusCount('delivered')}
           icon={CheckCircle} colorClass="bg-blue-500" />
-        <StatCard label="Pending Orders" value={loading ? '…' : getStatusCount('pending')}
+        <StatCard label="Pending Orders"
+          value={loading ? '…' : getStatusCount('pending')}
           icon={AlertTriangle} colorClass="bg-amber-500" />
       </div>
+
+      {/* Action banners */}
+      {!loading && (pendingReports > 0 || pendingProducts > 0) && (
+        <div className="space-y-2">
+          {pendingReports > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <AlertTriangle size={18} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-blue-800 font-medium">
+                  {pendingReports} warehouse report{pendingReports > 1 ? 's are' : ' is'} awaiting your approval
+                </p>
+              </div>
+              <a href="/admin-reports"
+                className="flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-colors">
+                Review
+              </a>
+            </div>
+          )}
+          {pendingProducts > 0 && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <AlertTriangle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-amber-800 font-medium">
+                  {pendingProducts} product{pendingProducts > 1 ? 's are' : ' is'} pending warehouse approval
+                </p>
+              </div>
+              <a href="/products/manage"
+                className="flex-shrink-0 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-colors">
+                View
+              </a>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Recent orders */}
       <div className="card">
@@ -79,7 +127,7 @@ const DistributorDashboard = () => {
                 <tr className="text-left text-slate-500 border-b border-slate-100">
                   <th className="pb-3 font-medium">Order #</th>
                   <th className="pb-3 font-medium">Retailer</th>
-                  <th className="pb-3 font-medium">Amount</th>
+                  <th className="pb-3 font-medium">Amount (ETB)</th>
                   <th className="pb-3 font-medium">Status</th>
                 </tr>
               </thead>
@@ -88,7 +136,9 @@ const DistributorDashboard = () => {
                   <tr key={order._id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 font-mono text-indigo-600">{order.orderNumber}</td>
                     <td className="py-3 text-slate-700">{order.retailer?.name ?? '—'}</td>
-                    <td className="py-3 font-medium">${order.totalAmount?.toLocaleString()}</td>
+                    <td className="py-3 font-medium">
+                      ETB {Number(order.totalAmount).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                    </td>
                     <td className="py-3"><StatusBadge status={order.status} /></td>
                   </tr>
                 ))}
@@ -105,12 +155,22 @@ const DistributorDashboard = () => {
 
 // ─── Warehouse Dashboard ──────────────────────────────────────────────────────
 const WarehouseDashboard = () => {
-  const [lowStock, setLowStock] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [lowStock, setLowStock]       = useState([])
+  const [pendingCount, setPendingCount] = useState(0)
+  const [totalProducts, setTotalProducts] = useState(0)
+  const [loading, setLoading]         = useState(true)
 
   useEffect(() => {
-    api.get('/stock/low')
-      .then((res) => setLowStock(res.data.products))
+    Promise.all([
+      api.get('/stock/low'),
+      api.get('/products/pending-approval'),
+      api.get('/products'),
+    ])
+      .then(([lowRes, pendingRes, prodRes]) => {
+        setLowStock(lowRes.data.products)
+        setPendingCount(pendingRes.data.count)
+        setTotalProducts(prodRes.data.count)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -118,11 +178,34 @@ const WarehouseDashboard = () => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard label="Low Stock Alerts" value={loading ? '…' : lowStock.length}
+        <StatCard label="Low Stock Alerts"    value={loading ? '…' : lowStock.length}
           icon={AlertTriangle} colorClass="bg-amber-500" />
-        <StatCard label="Stock Movements" value="—" icon={TrendingUp} colorClass="bg-indigo-500" />
-        <StatCard label="Total Products"  value="—" icon={Package}    colorClass="bg-blue-500" />
+        <StatCard label="Pending Approvals"   value={loading ? '…' : pendingCount}
+          icon={TrendingUp} colorClass={pendingCount > 0 ? 'bg-orange-500' : 'bg-indigo-500'}
+          sub={pendingCount > 0 ? 'Needs your attention' : undefined} />
+        <StatCard label="Total Products"      value={loading ? '…' : totalProducts}
+          icon={Package} colorClass="bg-blue-500" />
       </div>
+
+      {pendingCount > 0 && (
+        <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 flex items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <AlertTriangle size={18} className="text-orange-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-orange-800 text-sm">
+                {pendingCount} product{pendingCount > 1 ? 's are' : ' is'} waiting for your count & approval
+              </p>
+              <p className="text-orange-600 text-xs mt-0.5">
+                Admin has added new items. Please count the physical stock and approve them.
+              </p>
+            </div>
+          </div>
+          <a href="/warehouse/approvals"
+            className="flex-shrink-0 bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-colors">
+            Review Now
+          </a>
+        </div>
+      )}
 
       <div className="card">
         <h2 className="text-base font-semibold text-slate-700 mb-4 flex items-center gap-2">
@@ -193,7 +276,7 @@ const RetailerDashboard = () => {
           icon={ShoppingCart} colorClass="bg-indigo-500" />
         <StatCard label="Pending Delivery" value={loading ? '…' : pending}
           icon={Truck} colorClass="bg-amber-500" />
-        <StatCard label="Total Spent"     value={loading ? '…' : `$${totalSpent.toLocaleString()}`}
+        <StatCard label="Total Spent"     value={loading ? '…' : `ETB ${totalSpent.toLocaleString('en-ET', { minimumFractionDigits: 2 })}`}
           icon={DollarSign} colorClass="bg-emerald-500" />
       </div>
 
@@ -221,7 +304,9 @@ const RetailerDashboard = () => {
                   <tr key={order._id} className="hover:bg-slate-50">
                     <td className="py-3 font-mono text-indigo-600">{order.orderNumber}</td>
                     <td className="py-3 text-slate-600">{order.items?.length} item(s)</td>
-                    <td className="py-3 font-medium">${order.totalAmount?.toLocaleString()}</td>
+                    <td className="py-3 font-medium">
+                      ETB {Number(order.totalAmount).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                    </td>
                     <td className="py-3"><StatusBadge status={order.status} /></td>
                   </tr>
                 ))}

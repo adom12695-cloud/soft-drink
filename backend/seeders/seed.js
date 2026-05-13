@@ -57,22 +57,22 @@ const USERS = [
 
 // ─── Products ─────────────────────────────────────────────────────────────────
 const PRODUCTS = [
-  { name: 'Coca-Cola Classic',    brand: 'Coca-Cola',  category: 'cola',         sku: 'CC-500ML',     pricePerUnit: 1.50, unitSize: '500ml', stockQuantity: 500, lowStockThreshold: 100 },
-  { name: 'Pepsi Cola',           brand: 'Pepsi',      category: 'cola',         sku: 'PEPSI-500ML',  pricePerUnit: 1.45, unitSize: '500ml', stockQuantity: 450, lowStockThreshold: 100 },
-  { name: 'Coca-Cola Zero Sugar', brand: 'Coca-Cola',  category: 'cola',         sku: 'CCZ-500ML',    pricePerUnit: 1.55, unitSize: '500ml', stockQuantity: 300, lowStockThreshold: 80  },
-  { name: 'Sprite',               brand: 'Coca-Cola',  category: 'sparkling',    sku: 'SPRITE-500ML', pricePerUnit: 1.50, unitSize: '500ml', stockQuantity: 400, lowStockThreshold: 100 },
-  { name: 'Fanta Orange',         brand: 'Coca-Cola',  category: 'sparkling',    sku: 'FANTA-500ML',  pricePerUnit: 1.50, unitSize: '500ml', stockQuantity: 380, lowStockThreshold: 100 },
-  { name: '7UP',                  brand: 'PepsiCo',    category: 'sparkling',    sku: '7UP-500ML',    pricePerUnit: 1.45, unitSize: '500ml', stockQuantity: 420, lowStockThreshold: 100 },
-  { name: 'Tropicana Orange',     brand: 'Tropicana',  category: 'juice',        sku: 'TROP-1L',      pricePerUnit: 3.99, unitSize: '1L',    stockQuantity: 200, lowStockThreshold: 50  },
-  { name: 'Minute Maid Apple',    brand: 'Minute Maid',category: 'juice',        sku: 'MM-APPLE-1L',  pricePerUnit: 3.50, unitSize: '1L',    stockQuantity: 180, lowStockThreshold: 50  },
-  { name: 'Dasani Water',         brand: 'Dasani',     category: 'water',        sku: 'DASANI-500ML', pricePerUnit: 0.99, unitSize: '500ml', stockQuantity: 800, lowStockThreshold: 200 },
-  { name: 'Aquafina Water',       brand: 'Aquafina',   category: 'water',        sku: 'AQF-500ML',    pricePerUnit: 0.95, unitSize: '500ml', stockQuantity: 750, lowStockThreshold: 200 },
-  { name: 'Smartwater',           brand: 'Glaceau',    category: 'water',        sku: 'SMART-1L',     pricePerUnit: 2.50, unitSize: '1L',    stockQuantity: 40,  lowStockThreshold: 50  },
-  { name: 'Red Bull',             brand: 'Red Bull',   category: 'energy_drink', sku: 'RB-250ML',     pricePerUnit: 2.99, unitSize: '250ml', stockQuantity: 350, lowStockThreshold: 100 },
-  { name: 'Monster Energy',       brand: 'Monster',    category: 'energy_drink', sku: 'MONSTER-500ML',pricePerUnit: 3.25, unitSize: '500ml', stockQuantity: 280, lowStockThreshold: 80  },
-  { name: 'Rockstar Energy',      brand: 'Rockstar',   category: 'energy_drink', sku: 'ROCK-500ML',   pricePerUnit: 3.00, unitSize: '500ml', stockQuantity: 30,  lowStockThreshold: 50  },
-  { name: 'Lipton Iced Tea',      brand: 'Lipton',     category: 'other',        sku: 'LIPTON-500ML', pricePerUnit: 1.75, unitSize: '500ml', stockQuantity: 250, lowStockThreshold: 60  },
-  { name: 'Gatorade Lemon-Lime',  brand: 'Gatorade',   category: 'other',        sku: 'GATOR-500ML',  pricePerUnit: 2.25, unitSize: '500ml', stockQuantity: 220, lowStockThreshold: 60  },
+  { name: 'Coca-Cola Classic',    brand: 'Coca-Cola',  category: 'cola',         sku: 'CC-500ML',     pricePerUnit: 55,   unitSize: '500ml', stockQuantity: 500, lowStockThreshold: 100 },
+  { name: 'Pepsi Cola',           brand: 'Pepsi',      category: 'cola',         sku: 'PEPSI-500ML',  pricePerUnit: 50,   unitSize: '500ml', stockQuantity: 450, lowStockThreshold: 100 },
+  { name: 'Coca-Cola Zero Sugar', brand: 'Coca-Cola',  category: 'cola',         sku: 'CCZ-500ML',    pricePerUnit: 58,   unitSize: '500ml', stockQuantity: 300, lowStockThreshold: 80  },
+  { name: 'Sprite',               brand: 'Coca-Cola',  category: 'sparkling',    sku: 'SPRITE-500ML', pricePerUnit: 55,   unitSize: '500ml', stockQuantity: 400, lowStockThreshold: 100 },
+  { name: 'Fanta Orange',         brand: 'Coca-Cola',  category: 'sparkling',    sku: 'FANTA-500ML',  pricePerUnit: 55,   unitSize: '500ml', stockQuantity: 380, lowStockThreshold: 100 },
+  { name: '7UP',                  brand: 'PepsiCo',    category: 'sparkling',    sku: '7UP-500ML',    pricePerUnit: 50,   unitSize: '500ml', stockQuantity: 420, lowStockThreshold: 100 },
+  { name: 'Tropicana Orange',     brand: 'Tropicana',  category: 'juice',        sku: 'TROP-1L',      pricePerUnit: 145,  unitSize: '1L',    stockQuantity: 200, lowStockThreshold: 50  },
+  { name: 'Minute Maid Apple',    brand: 'Minute Maid',category: 'juice',        sku: 'MM-APPLE-1L',  pricePerUnit: 130,  unitSize: '1L',    stockQuantity: 180, lowStockThreshold: 50  },
+  { name: 'Dasani Water',         brand: 'Dasani',     category: 'water',        sku: 'DASANI-500ML', pricePerUnit: 35,   unitSize: '500ml', stockQuantity: 800, lowStockThreshold: 200 },
+  { name: 'Aquafina Water',       brand: 'Aquafina',   category: 'water',        sku: 'AQF-500ML',    pricePerUnit: 32,   unitSize: '500ml', stockQuantity: 750, lowStockThreshold: 200 },
+  { name: 'Smartwater',           brand: 'Glaceau',    category: 'water',        sku: 'SMART-1L',     pricePerUnit: 90,   unitSize: '1L',    stockQuantity: 40,  lowStockThreshold: 50  },
+  { name: 'Red Bull',             brand: 'Red Bull',   category: 'energy_drink', sku: 'RB-250ML',     pricePerUnit: 110,  unitSize: '250ml', stockQuantity: 350, lowStockThreshold: 100 },
+  { name: 'Monster Energy',       brand: 'Monster',    category: 'energy_drink', sku: 'MONSTER-500ML',pricePerUnit: 120,  unitSize: '500ml', stockQuantity: 280, lowStockThreshold: 80  },
+  { name: 'Rockstar Energy',      brand: 'Rockstar',   category: 'energy_drink', sku: 'ROCK-500ML',   pricePerUnit: 115,  unitSize: '500ml', stockQuantity: 30,  lowStockThreshold: 50  },
+  { name: 'Lipton Iced Tea',      brand: 'Lipton',     category: 'other',        sku: 'LIPTON-500ML', pricePerUnit: 65,   unitSize: '500ml', stockQuantity: 250, lowStockThreshold: 60  },
+  { name: 'Gatorade Lemon-Lime',  brand: 'Gatorade',   category: 'other',        sku: 'GATOR-500ML',  pricePerUnit: 85,   unitSize: '500ml', stockQuantity: 220, lowStockThreshold: 60  },
 ]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -98,7 +98,7 @@ const seedProducts = async () => {
   for (const p of PRODUCTS) {
     const exists = await Product.findOne({ sku: p.sku })
     if (exists) { console.log(`  ⚠️  Skip  ${p.sku}`); skipped++; continue }
-    await Product.create({ ...p, isActive: true })
+    await Product.create({ ...p, isActive: true, approvalStatus: 'approved', currency: 'ETB' })
     console.log(`  ✅ Created  [${p.sku}]  ${p.name}`)
     created++
   }

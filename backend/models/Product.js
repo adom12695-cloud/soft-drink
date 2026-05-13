@@ -52,7 +52,32 @@ const productSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      default: true,
+      default: false, // not active until warehouse manager approves
+    },
+    // Approval workflow: distributor adds → warehouse manager counts & approves
+    approvalStatus: {
+      type: String,
+      enum: ['pending_approval', 'approved', 'rejected'],
+      default: 'pending_approval',
+    },
+    approvalNote: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    approvedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    approvedAt: {
+      type: Date,
+      default: null,
+    },
+    // Currency is always ETB
+    currency: {
+      type: String,
+      default: 'ETB',
     },
   },
   { timestamps: true }

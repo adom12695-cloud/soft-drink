@@ -11,16 +11,22 @@ const notificationSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: [
-        'order_placed',       // retailer placed an order
-        'order_confirmed',    // distributor confirmed an order
-        'order_dispatched',   // delivery personnel dispatched
-        'order_delivered',    // order delivered
-        'order_cancelled',    // order cancelled
-        'stock_low',          // product below threshold
-        'stock_in',           // warehouse added stock
-        'stock_out',          // warehouse removed stock
-        'user_created',       // new user registered
-        'system',             // generic system message
+        'order_placed',           // retailer placed an order
+        'order_confirmed',        // distributor confirmed an order
+        'order_dispatched',       // delivery personnel dispatched
+        'order_delivered',        // order delivered
+        'order_cancelled',        // order cancelled
+        'stock_low',              // product below threshold
+        'stock_in',               // warehouse added stock
+        'stock_out',              // warehouse removed stock
+        'user_created',           // new user registered
+        'product_pending',        // new product awaiting warehouse count/approval
+        'product_approved',       // warehouse manager approved a product
+        'product_rejected',       // warehouse manager rejected a product
+        'report_submitted',       // warehouse manager submitted a report
+        'report_approved',        // admin approved a report
+        'report_rejected',        // admin rejected a report
+        'system',                 // generic system message
       ],
       required: true,
     },

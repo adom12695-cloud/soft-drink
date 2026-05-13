@@ -117,7 +117,9 @@ const PlaceOrderPage = () => {
                       <p className="font-semibold text-slate-800">{product.name}</p>
                       <p className="text-xs text-slate-400">{product.brand} · {product.unitSize}</p>
                     </div>
-                    <span className="text-lg font-bold text-indigo-600">${product.pricePerUnit}</span>
+                    <span className="text-lg font-bold text-indigo-600">
+                      ETB {Number(product.pricePerUnit).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className={`${product.isLowStock ? 'text-amber-600' : 'text-slate-500'}`}>
@@ -175,10 +177,12 @@ const PlaceOrderPage = () => {
                 <div key={item.product._id} className="flex items-center gap-3 text-sm">
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-800 truncate">{item.product.name}</p>
-                    <p className="text-slate-400 text-xs">${item.product.pricePerUnit} × {item.quantity}</p>
+                    <p className="text-slate-400 text-xs">
+                      ETB {Number(item.product.pricePerUnit).toLocaleString('en-ET', { minimumFractionDigits: 2 })} × {item.quantity}
+                    </p>
                   </div>
                   <span className="font-semibold text-slate-700 whitespace-nowrap">
-                    ${(item.product.pricePerUnit * item.quantity).toFixed(2)}
+                    ETB {(item.product.pricePerUnit * item.quantity).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
                   </span>
                   <button onClick={() => removeFromCart(item.product._id)}
                     className="text-slate-300 hover:text-red-500 transition-colors">
@@ -188,7 +192,9 @@ const PlaceOrderPage = () => {
               ))}
               <div className="border-t border-slate-100 pt-3 flex justify-between font-bold text-slate-800">
                 <span>Total</span>
-                <span className="text-indigo-600">${cartTotal.toFixed(2)}</span>
+                <span className="text-indigo-600">
+                  ETB {cartTotal.toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                </span>
               </div>
             </div>
           )}
@@ -232,7 +238,7 @@ const PlaceOrderPage = () => {
               ) : (
                 <>
                   <ShoppingCart size={16} />
-                  Place Order · ${cartTotal.toFixed(2)}
+                  Place Order · ETB {cartTotal.toLocaleString('en-ET', { minimumFractionDigits: 2 })}
                 </>
               )}
             </button>

@@ -80,7 +80,7 @@ const placeOrder = async (req, res, next) => {
         recipient: d._id,
         type:      'order_placed',
         title:     'New Order Received',
-        message:   `${req.user.name} placed order ${order.orderNumber} for $${order.totalAmount.toFixed(2)}.`,
+        message:   `${req.user.name} placed order ${order.orderNumber} for ETB ${order.totalAmount.toLocaleString('en-ET', { minimumFractionDigits: 2 })}.`,
         link:      '/orders',
         meta:      { orderId: order._id },
       })));

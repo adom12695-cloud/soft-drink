@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react'
 import api from '../../services/api'
 import { DollarSign, ShoppingCart, CheckCircle, Clock, XCircle, Truck } from 'lucide-react'
 
+const formatETB = (n) =>
+  `ETB ${Number(n || 0).toLocaleString('en-ET', { minimumFractionDigits: 2 })}`
+
 const STATUS_COLORS = {
   pending:    'bg-amber-400',
   confirmed:  'bg-blue-400',
   dispatched: 'bg-indigo-400',
   delivered:  'bg-emerald-400',
   cancelled:  'bg-red-400',
+}
+
+const STATUS_BADGE = {
+  pending:    'bg-amber-100 text-amber-700',
+  confirmed:  'bg-blue-100 text-blue-700',
+  dispatched: 'bg-indigo-100 text-indigo-700',
+  delivered:  'bg-emerald-100 text-emerald-700',
+  cancelled:  'bg-red-100 text-red-600',
 }
 
 const STATUS_ICONS = {
@@ -52,13 +63,17 @@ const AnalyticsPage = () => {
     <div className="space-y-6">
       {/* KPI row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard label="Total Orders"   value={loading ? '…' : analytics?.totalOrders ?? 0}
+        <StatCard label="Total Orders"
+          value={loading ? '…' : analytics?.totalOrders ?? 0}
           icon={ShoppingCart} colorClass="bg-indigo-500" />
-        <StatCard label="Total Revenue"  value={loading ? '…' : `$${(analytics?.totalRevenue ?? 0).toLocaleString()}`}
+        <StatCard label="Total Revenue (ETB)"
+          value={loading ? '…' : formatETB(analytics?.totalRevenue)}
           icon={DollarSign} colorClass="bg-emerald-500" />
-        <StatCard label="Delivered"      value={loading ? '…' : getCount('delivered')}
+        <StatCard label="Delivered"
+          value={loading ? '…' : getCount('delivered')}
           icon={CheckCircle} colorClass="bg-blue-500" />
-        <StatCard label="Cancelled"      value={loading ? '…' : getCount('cancelled')}
+        <StatCard label="Cancelled"
+          value={loading ? '…' : getCount('cancelled')}
           icon={XCircle} colorClass="bg-red-400" />
       </div>
 
@@ -75,8 +90,8 @@ const AnalyticsPage = () => {
           <div className="space-y-4">
             {['pending', 'confirmed', 'dispatched', 'delivered', 'cancelled'].map((status) => {
               const count = getCount(status)
-              const pct = Math.round((count / totalNonCancelled) * 100)
-              const Icon = STATUS_ICONS[status]
+              const pct   = Math.round((count / totalNonCancelled) * 100)
+              const Icon  = STATUS_ICONS[status]
               return (
                 <div key={status}>
                   <div className="flex items-center justify-between mb-1.5">
@@ -115,7 +130,7 @@ const AnalyticsPage = () => {
                 <tr className="text-left text-slate-500 border-b border-slate-100">
                   <th className="pb-3 font-medium">Order #</th>
                   <th className="pb-3 font-medium">Retailer</th>
-                  <th className="pb-3 font-medium">Amount</th>
+                  <th className="pb-3 font-medium">Amount (ETB)</th>
                   <th className="pb-3 font-medium">Status</th>
                   <th className="pb-3 font-medium">Date</th>
                 </tr>
@@ -125,14 +140,16 @@ const AnalyticsPage = () => {
                   <tr key={order._id} className="hover:bg-slate-50">
                     <td className="py-3 font-mono text-indigo-600">{order.orderNumber}</td>
                     <td className="py-3 text-slate-700">{order.retailer?.name ?? '—'}</td>
-                    <td className="py-3 font-medium">${order.totalAmount?.toLocaleString()}</td>
+                    <td className="py-3 font-semibold text-slate-800">
+                      {formatETB(order.totalAmount)}
+                    </td>
                     <td className="py-3">
-                      <span className={`badge capitalize ${STATUS_COLORS[order.status]?.replace('bg-', 'bg-').replace('-400', '-100')} text-slate-700`}>
+                      <span className={`badge capitalize ${STATUS_BADGE[order.status] ?? 'bg-slate-100 text-slate-600'}`}>
                         {order.status}
                       </span>
                     </td>
                     <td className="py-3 text-slate-400">
-                      {new Date(order.createdAt).toLocaleDateString()}
+                      {new Date(order.createdAt).toLocaleDateString('en-ET')}
                     </td>
                   </tr>
                 ))}

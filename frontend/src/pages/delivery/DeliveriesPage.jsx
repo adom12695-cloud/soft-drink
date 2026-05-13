@@ -199,7 +199,9 @@ const DeliveriesPage = () => {
 
               <div className="flex items-center gap-3 flex-shrink-0">
                 <div className="text-right">
-                  <p className="font-bold text-slate-800">${order.totalAmount?.toLocaleString()}</p>
+                  <p className="font-bold text-slate-800">
+                    ETB {Number(order.totalAmount).toLocaleString('en-ET', { minimumFractionDigits: 2 })}
+                  </p>
                   <p className="text-xs text-slate-400">{order.items?.length} item(s)</p>
                 </div>
                 {['confirmed', 'dispatched'].includes(order.status) && (
