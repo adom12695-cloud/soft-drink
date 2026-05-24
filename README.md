@@ -129,3 +129,4 @@ The React app runs on `http://localhost:3000` and proxies API calls to `http://l
 | POST   | /api/stock/out                  | Distributor, Warehouse Manager  |
 | GET    | /api/stock/logs                 | Distributor, Warehouse Manager  |
 | GET    | /api/stock/low                  | Distributor, Warehouse Manager  |
+"# soft-drink" 
